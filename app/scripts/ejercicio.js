@@ -8,31 +8,19 @@
            'serverSide': true,
            'ajax': 'http://www.futbolistas.com/server_processing.php',
            'columns': [{
-               'data': 'idClinica'
+               'data': 'id_doctor'
            }, {
                'data': 'nombre'
            }, {
-               'data': 'razonSocial'
+               'data': 'numcolegiado'
            }, {
-               'data': 'cif'
+               'data': 'id_clinicas'
            }, {
-               'data': 'localidad'
+               'data': 'nombreclinicas'
            }, {
-               'data': 'provincia'
-           }, {
-               'data': 'direccion'
-           }, {
-               'data': 'cp'
-           }, {
-               'data': 'numClinica'
-           }, {
-               'data': 'id_Tarifa'
-           }, {
-               'data': 'nombreTarifa'
-           }, {
-               'data': 'idClinica',
+               'data': 'id_doctor',
                'render': function(data) {
-                   return '<a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+                   return '<a class="btn btn-success añadirbtn" href=http://www.futbolistas.com/php/editar.php?id_clinica=' + data + '>Añadir</a><a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
                }
            }],
            'language': {
@@ -61,7 +49,8 @@
            }
        });
 
-       $('#miTabla').on('click', '.editarbtn', function(e) {
+       
+        $('#miTabla').on('click', '.editarbtn', function(e) {
            e.preventDefault();
            $('#tabla').fadeOut(100);
            $('#formulario').fadeIn(100);
@@ -80,6 +69,7 @@
            /*lo más cómodo para la provincia sería esto:
            $('#provincia').val(aData.provincia);
            pero como el valor de la provincia viene con digitos en el html (atributo val), tenemos que selecionar por el texto contenido:*/
+           
            $('#provincia option').filter(function() {
                return this.text.toLowerCase() === aData.provincia.toLowerCase();
            }).attr('selected', true);
