@@ -20,7 +20,7 @@
            }, {
                'data': 'id_doctor',
                'render': function(data) {
-                   return '<a class="btn btn-success añadirbtn" href=http://www.futbolistas.com/php/editar.php?id_clinica=' + data + '>Añadir</a><a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+                   return '<a class="btn btn-success añadirbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Añadir</a><a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_doctor=' + data + '>Borrar</a>';
                }
            }],
            'language': {
@@ -49,107 +49,40 @@
            }
        });
 
-       
-        $('#miTabla').on('click', '.editarbtn', function(e) {
+
+       $('#miTabla').on('click', '.editarbtn', function(e) {
            e.preventDefault();
            $('#tabla').fadeOut(100);
            $('#formulario').fadeIn(100);
 
-
            var nRow = $(this).parents('tr')[0];
            var aData = miTabla.row(nRow).data();
-           $('#idClinica').val(aData.idClinica);
+           $('#id_doctor').val(aData.id_doctor);
            $('#nombre').val(aData.nombre);
-           $('#numClinica').val(aData.numClinica);
-           $('#razonSocial').val(aData.razonSocial);
-           $('#cif').val(aData.cif);
-           $('#localidad').val(aData.localidad);
-           $('#cp').val(aData.cp);
+           $('#numcolegiado').val(aData.numcolegiado);
+           $('#id_clinicas').val(aData.id_clinicas);
+           $('#nombreclinicas').val(aData.nombreclinicas);
 
-           /*lo más cómodo para la provincia sería esto:
-           $('#provincia').val(aData.provincia);
-           pero como el valor de la provincia viene con digitos en el html (atributo val), tenemos que selecionar por el texto contenido:*/
-           
-           $('#provincia option').filter(function() {
-               return this.text.toLowerCase() === aData.provincia.toLowerCase();
-           }).attr('selected', true);
-
-           $('#direccion').val(aData.direccion);
-           $('#nombreTarifa').val(aData.nombreTarifa);
-
-       });
-
-
-       function cargarTarifas() {
-           //escribimos ajax y tabulo para que me salga toda la estructura
-           $.ajax({
-                   url: 'http://www.futbolistas.com/listar_tarifas.php',
-                   type: 'GET',
-                   dataType: 'json',
-               })
-               .done(function(data) { //en el success recojo los datos que vienen y los meto en el data
-                   $('#idTarifa').empty();
-                   $.each(data, function() {
-                       $('#idTarifa').append(
-                           $('<option></option>').val(this.id_tarifa).html(this.nombre)
-                       );
-                   });
-               })
-               .fail(function() {
-                   console.log('ha habido un error al obtener las tarifas');
-               });
-       }
-       cargarTarifas();
-
-       $('#miTabla').on('click', '.borrarbtn', function(e) {
-           e.preventDefault();
-           var nRow = $(this).parents('tr')[0];
-           var aData = miTabla.row(nRow).data();
-           var idClinica = aData.idClinica;
-           $.ajax({
-                   url: 'http://www.futbolistas.com/borrar_clinica.php',
-                   type: 'GET',
-                   dataType: 'json',
-                   //estos son los datos que queremos actualizar, en json:
-                   data: {
-                       'id_clinica': idClinica
-                   },
-               })
-               .done(function() {
-                   var $mitabla = $('#miTabla').dataTable({
-                       bRetrieve: true
-                   });
-                   $mitabla.fnDraw();
-                   console.log('Se ha borrado la clinica');
-               })
-               .fail(function() {
-                   console.log('error al borrar la clinica');
-               });
        });
 
        $('#enviar').click(function(e) {
            e.preventDefault();
-           var idClinica = $('#idClinica').val();
+           var id_doctor = $('#id_doctor').val();
            var nombre = $('#nombre').val();
-           var localidad = $('#localidad').val();
-           var provincia = $('#provincia option:selected').text();
-           var direccion = $('#direccion').val();
-           var cif = $('#cif').val();
-           var cp = $('#cp').val();
-           var id_tarifa = $('#idTarifa').val();
+           var numcolegiado = $('#numcolegiado').val();
+           var id_clinicas = $('#id_clinicas').val();
+           var nombreclinicas = $('#nombreclinicas').val();
            $.ajax({
-                   url: 'http://www.futbolistas.com/modificar_clinica.php',
+                   url: 'http://www.futbolistas.com/modificar_doctor.php',
                    type: 'POST',
                    dataType: 'json',
                    data: {
-                       id_clinica: idClinica,
+                       id_doctor: id_doctor,
                        nombre: nombre,
-                       localidad: localidad,
-                       provincia: provincia,
-                       direccion: direccion,
-                       cp: cp,
-                       id_tarifa: id_tarifa,
-                       cif: cif
+                       numcolegiado: numcolegiado,
+                       id_clinicas: id_clinicas,
+                       nombreclinicas: nombreclinicas,
+                      
                    },
                })
                .done(function() {
@@ -167,6 +100,35 @@
                });
 
        });
+
+
+       $('#miTabla').on('click', '.borrarbtn', function(e) {
+           e.preventDefault();
+           var nRow = $(this).parents('tr')[0];
+           var aData = miTabla.row(nRow).data();
+           var id_doctor = aData.id_doctor;
+           $.ajax({
+                   url: 'http://www.futbolistas.com/borrar_doctor.php',
+                   type: 'GET',
+                   dataType: 'json',
+                   //estos son los datos que queremos actualizar, en json:
+                   data: {
+                       'id_doctor': id_doctor
+                   },
+               })
+               .done(function() {
+                   var $mitabla = $('#miTabla').dataTable({
+                       bRetrieve: true
+                   });
+                   $mitabla.fnDraw();
+                   console.log('Se ha borrado el doctor');
+               })
+               .fail(function() {
+                   console.log('error al borrar el doctor');
+               });
+       });
+
+
 
 
    });
