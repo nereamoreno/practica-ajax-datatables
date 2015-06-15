@@ -20,7 +20,7 @@
            }, {
                'data': 'id_doctor',
                'render': function(data) {
-                   return '<a class="btn btn-success añadirbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Añadir</a><a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_doctor=' + data + '>Borrar</a>';
+                   return '<a class="btn btn-success añadirbtn">Añadir</a><a class="btn btn-primary editarbtn">Editar</a><a class="btn btn-warning borrarbtn">Borrar</a>';
                }
            }],
            'language': {
@@ -60,8 +60,8 @@
            $('#id_doctor').val(aData.id_doctor);
            $('#nombre').val(aData.nombre);
            $('#numcolegiado').val(aData.numcolegiado);
-           $('#id_clinicas').val(aData.id_clinicas);
-           $('#nombreclinicas').val(aData.nombreclinicas);
+           //$('#id_clinicas').val(aData.id_clinicas);
+           //$('#nombreclinicas').val(aData.nombreclinicas);
 
        });
 
@@ -70,8 +70,8 @@
            var id_doctor = $('#id_doctor').val();
            var nombre = $('#nombre').val();
            var numcolegiado = $('#numcolegiado').val();
-           var id_clinicas = $('#id_clinicas').val();
-           var nombreclinicas = $('#nombreclinicas').val();
+           //var id_clinicas = $('#id_clinicas').val();
+           //var nombreclinicas = $('#nombreclinicas').val();
            $.ajax({
                    url: 'http://www.futbolistas.com/modificar_doctor.php',
                    type: 'POST',
@@ -80,9 +80,9 @@
                        id_doctor: id_doctor,
                        nombre: nombre,
                        numcolegiado: numcolegiado,
-                       id_clinicas: id_clinicas,
-                       nombreclinicas: nombreclinicas,
-                      
+                       //id_clinicas: id_clinicas,
+                       //nombreclinicas: nombreclinicas
+
                    },
                })
                .done(function() {
@@ -97,6 +97,56 @@
                .always(function() {
                    $('#tabla').fadeIn(100);
                    $('#formulario').fadeOut(100);
+               });
+
+       });
+
+       $('#miTabla').on('click', '.añadirbtn', function(e) {
+           e.preventDefault();
+           $('#tabla').fadeOut(100);
+           $('#formulario2').fadeIn(100);
+
+           //var nRow = $(this).parents('tr')[0];
+           //var aData = miTabla.row(nRow).data();
+           //$('#id_doctor').val(aData.id_doctor);
+           //$('#nombre').val(aData.nombre);
+           //$('#numcolegiado').val(aData.numcolegiado);
+           //$('#id_clinicas').val(aData.id_clinicas);
+           //$('#nombreclinicas').val(aData.nombreclinicas);
+
+       });
+       $('#añadir').click(function(e) {
+           e.preventDefault();
+           var id_doctor = $('#id_doctor').val();
+           var nombre = $('#nombre').val();
+           var numcolegiado = $('#numcolegiado').val();
+           //var id_clinicas = $('#id_clinicas').val();
+           //var nombreclinicas = $('#nombreclinicas').val();
+           $.ajax({
+                   url: 'http://www.futbolistas.com/añadir_doctor.php',
+                   type: 'POST',
+                   dataType: 'json',
+                   data: {
+                       id_doctor: id_doctor,
+                       nombre: nombre,
+                       numcolegiado: numcolegiado,
+                       //id_clinicas: id_clinicas,
+                       //nombreclinicas: nombreclinicas
+
+                   },
+               })
+               .done(function() {
+                   var $mitabla = $('#miTabla').dataTable({
+                       bRetrieve: true
+                   });
+                   $mitabla.fnDraw();
+               })
+               .fail(function() {
+                   console.log('error');
+               })
+               .always(function() {
+                   $('#tabla').fadeIn(100);
+                   $('#formulario2').fadeOut(100);
                });
 
        });
