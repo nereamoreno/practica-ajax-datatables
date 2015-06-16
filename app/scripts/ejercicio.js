@@ -20,7 +20,7 @@
            }, {
                'data': 'id_doctor',
                'render': function(data) {
-                   return '<a class="btn btn-success añadirbtn">Añadir</a><a class="btn btn-primary editarbtn">Editar</a><a class="btn btn-warning borrarbtn">Borrar</a>';
+                   return '<a class="btn btn-primary editarbtn">Editar</a><a class="btn btn-warning borrarbtn">Borrar</a>';
                }
            }],
            'language': {
@@ -49,6 +49,28 @@
            }
        });
 
+       /*Cargamos los clinicas para que aparezcan en el select:*/
+       function cargarClinicas() {
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/listar_clinicas.php',
+               async: false,
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                   $('#clinicas_n,#clinicas_e').empty();
+                   $.each(data, function() {
+                       $('#clinicas_n,#clinicas_e').append(
+                           $('<option ></option>').val(this.id_clinica).html(this.nombre)
+                       );
+                   });
+               },
+               complete: {
+               }
+           });
+       }
 
        $('#miTabla').on('click', '.editarbtn', function(e) {
            e.preventDefault();
@@ -60,26 +82,29 @@
            $('#id_doctor').val(aData.id_doctor);
            $('#nombre').val(aData.nombre);
            $('#numcolegiado').val(aData.numcolegiado);
-           //$('#id_clinicas').val(aData.id_clinicas);
-           //$('#nombreclinicas').val(aData.nombreclinicas);
+           $('#clinicas_e').val(aData.nombreClinica);
+           cargarClinicas();
+           var str = aData.idClinica;
+           str = str.split(",");
+           $('#clinicas_e').val(str);
+
 
        });
 
        $('#enviar').click(function(e) {
            e.preventDefault();
-           var id_doctor = $('#id_doctor').val();
-           var nombre = $('#nombre').val();
-           var numcolegiado = $('#numcolegiado').val();
-           //var id_clinicas = $('#id_clinicas').val();
-           //var nombreclinicas = $('#nombreclinicas').val();
+           var id_doctor_e = $('#id_doctor').val();
+           var nombre_e = $('#nombre_e').val();
+           var numcolegiado_e = $('#numcolegiado_e').val();
+           var clinicas_e = $('#clinicas_e').val();
            $.ajax({
                    url: 'http://www.futbolistas.com/modificar_doctor.php',
                    type: 'POST',
                    dataType: 'json',
                    data: {
-                       id_doctor: id_doctor,
-                       nombre: nombre,
-                       numcolegiado: numcolegiado,
+                       id_doctor_e: id_doctor_e,
+                       nombre_e: nombre_e,
+                       numcolegiado_e: numcolegiado_e,
                        //id_clinicas: id_clinicas,
                        //nombreclinicas: nombreclinicas
 
@@ -101,23 +126,78 @@
 
        });
 
-       $('#miTabla').on('click', '.añadirbtn', function(e) {
+
+
+
+       /*Accion de CREAR NUEVO Doctor*/
+       $('#nuevo_doctor').click(function(e) {
            e.preventDefault();
            $('#tabla').fadeOut(100);
-           $('#formulario2').fadeIn(100);
-
-           //var nRow = $(this).parents('tr')[0];
-           //var aData = miTabla.row(nRow).data();
-           //$('#id_doctor').val(aData.id_doctor);
-           //$('#nombre').val(aData.nombre);
-           //$('#numcolegiado').val(aData.numcolegiado);
-           //$('#id_clinicas').val(aData.id_clinicas);
-           //$('#nombreclinicas').val(aData.nombreclinicas);
-
+           $('#formulario_crear').fadeIn(100);
+           cargarClinicas();
        });
-       $('#añadir').click(function(e) {
+
+       /*$('#form_crear').validate({
+           rules: {
+               nombre_n: {
+                   required: true,
+                   spanishlettersspace: true
+               },
+               numcolegiado_n: {
+                   digits: true
+               },
+               clinicas_n: {
+                   required: true,
+                   minlength: 1
+               }
+           },
+           submitHandler: function() {
+               nombre_n = $('#nombre_n').val();
+               numcolegiado_n = $('#numcolegiado_n').val();
+               clinicas_n = $('#clinicas_n').val();
+
+
+               $.ajax({
+                   type: 'POST',
+                   dataType: 'json',
+                   url: 'php/añadir_doctor.php',
+
+                   data: {
+                       nombre_n: nombre_n,
+                       numcolegiado_n: numcolegiado_n,
+                       clinicas_n: clinicas_n
+
+                   },
+                   error: function(xhr, status, error) {
+                       $.growl.error({
+                           title: "ERROR",
+                           message: "No se ha podido añadir el Doctor"
+                       });
+                   },
+                   success: function(data) {
+                       var $mitabla = $("#miTabla").dataTable({
+                           bRetrieve: true
+                       });
+                       $mitabla.fnDraw();
+                       if (data[0].estado == 0) {
+                           $.growl.notice({
+                               title: "OK",
+                               message: "Doctor añadido correctamente"
+                           });
+                       }
+                   },
+                   complete: {}
+               });
+               $('#formulario_crear').fadeOut(100);
+               $('#tabla').fadeIn(100);
+           }
+
+       });*/
+
+
+
+       /*$('#añadir').click(function(e) {
            e.preventDefault();
-           var id_doctor = $('#id_doctor').val();
            var nombre = $('#nombre').val();
            var numcolegiado = $('#numcolegiado').val();
            //var id_clinicas = $('#id_clinicas').val();
@@ -127,11 +207,10 @@
                    type: 'POST',
                    dataType: 'json',
                    data: {
-                       id_doctor: id_doctor,
                        nombre: nombre,
                        numcolegiado: numcolegiado,
                        //id_clinicas: id_clinicas,
-                       //nombreclinicas: nombreclinicas
+                       nombreclinicas: nombreclinicas
 
                    },
                })
@@ -149,7 +228,8 @@
                    $('#formulario2').fadeOut(100);
                });
 
-       });
+       });*/
+
 
 
        $('#miTabla').on('click', '.borrarbtn', function(e) {
