@@ -1,4 +1,6 @@
 td .btn-primary {margin-right: 3px;}
 td .btn-success {margin-right: 3px;}
-body {magin-top:50px;}
+body {padding-top:70px;}
 #formulario{display: none;margin-top: 50px;}
+#formulario_crear{display: none;margin-top: 50px;}
+#nuevo_doctor{padding-left: 10px;}

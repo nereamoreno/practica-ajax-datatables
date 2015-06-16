@@ -1,5 +1,7 @@
 <?php
- 
+header('content-type: application/json; charset=utf-8');
+//en caso de json en vez de jsonp habría que habilitar CORS:
+header("access-control-allow-origin: *"); 
 /*
  * DataTables example server-side processing script.
  *
@@ -19,27 +21,21 @@
  */
  
 // DB table to use
-$table = 'vclinicas';
+$table = 'vdoctores';
  
 // Table's primary key
-$primaryKey = 'id_clinica';
+$primaryKey = 'id_doctor';
  
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
-    array( 'db' => 'id_clinica', 'dt' => 'idClinica' ),
-    array( 'db' => 'nombre',  'dt' => 'nombre' ),
-    array( 'db' => 'razonsocial',   'dt' => 'razonSocial' ),
-    array( 'db' => 'cif',     'dt' => 'cif' ),
-    array( 'db' => 'cp',     'dt' => 'cp' ),
-    array( 'db' => 'localidad', 'dt' => 'localidad' ),
-    array( 'db' => 'provincia',  'dt' => 'provincia' ),
-    array( 'db' => 'direccion',   'dt' => 'direccion' ),
-    array( 'db' => 'numclinica',     'dt' => 'numClinica' ),
-    array( 'db' => 'id_tarifa',     'dt' => 'idTarifa' ),
-    array( 'db' => 'nombretarifa',     'dt' => 'nombreTarifa' )
+    array( 'db' => 'id_doctor', 'dt' => id_doctor ),
+    array( 'db' => 'nombre',  'dt' => nombre ),
+    array( 'db' => 'numcolegiado',   'dt' => numcolegiado ),
+    array( 'db' => 'id_clinicas',     'dt' => id_clinicas ),
+    array( 'db' => 'nombreclinicas', 'dt' => nombreclinicas )
 );
  
 // SQL server connection information
