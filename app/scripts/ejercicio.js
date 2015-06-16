@@ -6,7 +6,7 @@
        miTabla = $('#miTabla').DataTable({
            'processing': true,
            'serverSide': true,
-           'ajax': 'http://www.futbolistas.com/server_processing.php',
+           'ajax': 'http://www.futbolistas.com/server_processing_doctor.php',
            'columns': [{
                'data': 'id_doctor'
            }, {
@@ -20,7 +20,7 @@
            }, {
                'data': 'id_doctor',
                'render': function(data) {
-                   return '<a class="btn btn-success añadirbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Añadir</a><a class="btn btn-primary editarbtn" href=http://www.futbolistas.com/php/editar.php?id_doctor=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_doctor=' + data + '>Borrar</a>';
+                   return '<a class="btn btn-success añadirbtn">Añadir</a><a class="btn btn-primary editarbtn">Editar</a><a class="btn btn-warning borrarbtn">Borrar</a>';
                }
            }],
            'language': {
@@ -81,7 +81,7 @@
                        nombre: nombre,
                        numcolegiado: numcolegiado,
                        id_clinicas: id_clinicas,
-                       nombreclinicas: nombreclinicas,
+                       nombreclinicas: nombreclinicas
                       
                    },
                })
