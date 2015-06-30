@@ -40,9 +40,9 @@ $columns = array(
  
 // SQL server connection information
 $sql_details = array(
-    'user' => 'root',
-    'pass' => 'root',
-    'db'   => 'datatables',
+    'user' => 'nmoreno_root',
+    'pass' => 'password_root',
+    'db'   => 'nmoreno_datatables',
     'host' => 'localhost'
 );
  

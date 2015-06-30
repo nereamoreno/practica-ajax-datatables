@@ -50,10 +50,10 @@
        /*Cargamos las clínicas en el SELECT*/
        function cargarClinicas() {
            $.ajax({
-               type: 'GET',
+               type: 'POST',
                dataType: 'json',
-               url: 'php/listar_clinicas.php',
-               //async: false,
+               url: './php/listar_clinicas.php',
+               async: false,
                error: function(xhr, status, error) {
 
                },
@@ -71,7 +71,6 @@
            });
        }
 
-
        /*EDITAR*/
        $('#miTabla').on('click', '.editarbtn', function(e) {
            e.preventDefault();
@@ -87,7 +86,6 @@
 
 
        });
-       //cargarClinicas();
 
        $('#enviar').click(function(e) {
            e.preventDefault();
@@ -119,7 +117,6 @@
                    $('#tabla').fadeIn(100);
                    $('#formulario').fadeOut(100);
                });
-            //location.reload();
 
        });
 
@@ -161,7 +158,6 @@
                    $('#tabla').fadeIn(100);
                    $('#formulario_crear').fadeOut(100);
                });
-            //location.reload();
 
        });
 
@@ -191,7 +187,6 @@
                .fail(function() {
                    console.log('error al borrar el doctor');
                });
-            //location.reload();
        });
 
 
